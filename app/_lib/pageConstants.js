@@ -41,3 +41,8 @@ export const CabinsPageMetadataTitleText = "Cabins";
 export const CabinsPageTitleText = "Our Luxury Cabins";
 export const CabinsPageDescriptionText =
   "Cozy yet luxurious cabins, located right in the heart of the Italian Dolomites. Imagine waking up to beautiful mountain views, spending your days exploring the dark forests around, or just relaxing in your private hot tub under the stars. Enjoy nature's beauty in your own little home away from home. The perfect spot for a peaceful, calm vacation. \nWelcome to paradise.";
+
+export const ProfilePageMetadataTitleText = "Update profile";
+export const ProfilePageTitleText = "Update your guest profile";
+export const ProfilePageDescriptionText =
+  "Providing the following information will make your check-in process faster and smoother. See you soon!";
