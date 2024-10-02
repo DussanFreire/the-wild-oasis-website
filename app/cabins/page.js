@@ -11,6 +11,7 @@ import {
   CabinsPageTitleText,
   SearchParams,
 } from "../_lib/pageConstants";
+import ReservationReminder from "../_components/ReservationReminder";
 
 export const revalidate = 3600;
 
@@ -35,6 +36,7 @@ export default function Page({ searchParams }) {
       </div>
       <Suspense fallback={<Spinner />} key={filter}>
         <CabinList filter={filter} />
+        <ReservationReminder />
       </Suspense>
     </div>
   );
