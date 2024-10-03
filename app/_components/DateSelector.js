@@ -25,7 +25,7 @@ function DateSelector({ settings, bookedDates, cabin }) {
   const { minBookingLength, maxBookingLength } = settings;
 
   return (
-    <div className="flex flex-col justify-between">
+    <div className="flex flex-col justify-between gap-3">
       <DayPicker
         className="place-self-center pt-12"
         mode="range"
@@ -40,7 +40,7 @@ function DateSelector({ settings, bookedDates, cabin }) {
         numberOfMonths={2}
       />
 
-      <div className="flex h-[72px] items-center justify-between bg-accent-500 px-8 text-primary-800">
+      <div className="flex h-[72px] items-center justify-between  bg-accent-500 px-8 text-primary-800">
         <div className="flex items-baseline gap-6">
           <p className="flex items-baseline gap-2">
             {discount > 0 ? (
