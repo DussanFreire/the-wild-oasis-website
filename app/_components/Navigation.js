@@ -1,6 +1,10 @@
 import Link from "next/link";
 import React from "react";
-export default function Navigation() {
+import { auth } from "../_lib/auth";
+export default async function Navigation() {
+  const session = await auth();
+  const userImage = session?.user?.image;
+
   return (
     <nav className="z-10 text-xl">
       <ul className="flex items-center gap-16">
@@ -20,14 +24,31 @@ export default function Navigation() {
             About
           </Link>
         </li>
-        <li>
-          <Link
-            href="/account"
-            className="transition-colors hover:text-accent-400"
-          >
-            Guest area
-          </Link>
-        </li>
+        {userImage ? (
+          <li>
+            <Link
+              href="/account"
+              className="flex items-center gap-4 transition-colors hover:text-accent-400"
+            >
+              <img
+                className="h-8 rounded-full"
+                src={session.user.image}
+                alt={session.user.name}
+                referrerPolicy="no-referrer"
+              />
+              <span>Guest area</span>
+            </Link>
+          </li>
+        ) : (
+          <li>
+            <Link
+              href="/account"
+              className="transition-colors hover:text-accent-400"
+            >
+              Guest area
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

@@ -1,11 +1,15 @@
 import React from "react";
+import { auth } from "../_lib/auth";
 export const metadata = {
   title: "Guest Area",
 };
-export default function Page() {
+export default async function Page() {
+  const session = await auth();
+
+  const firstName = session.user.name.split(" ")[0];
   return (
     <h2 className="mb-7 text-2xl font-semibold text-accent-400">
-      Welcome, Dussan
+      Welcome, {firstName}
     </h2>
   );
 }
