@@ -1,7 +1,11 @@
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+
 import about1 from "@/public/about-1.jpg";
-import { getCabins } from "../_lib/data-service";
+import { Paths } from "../_lib/paths";
+import { PAGE_NAME, WELCOME_PAGE_TEXT } from "../_lib/pageConstants";
+
 export const metadata = {
   title: "About",
 };
@@ -9,34 +13,17 @@ export const metadata = {
 export const revalidate = 86400;
 
 export default async function Page() {
-  const cabins = await getCabins();
-
   return (
     <div className="grid grid-cols-5 items-center gap-x-24 gap-y-32 text-lg">
       <div className="col-span-3">
         <h1 className="mb-10 text-4xl font-medium text-accent-400">
-          Welcome to The Wild Oasis
+          Welcome to {PAGE_NAME}
         </h1>
 
         <div className="space-y-8">
-          <p>
-            Where nature&apos;ss beauty and comfortable living blend seamlessly.
-            Hidden away in the heart of the Italian Dolomites, this is your
-            paradise away from home. But it&apos;ss not just about the luxury
-            cabins. It&apos;ss about the experience of reconnecting with nature
-            and enjoying simple pleasures with family.
-          </p>
-          <p>
-            Our {cabins.length} luxury cabins provide a cozy base, but the real
-            freedom and peace you&apos;sll find in the surrounding mountains.
-            Wander through lush forests, breathe in the fresh air, and watch the
-            stars twinkle above from the warmth of a campfire or your hot tub.
-          </p>
-          <p>
-            This is where memorable moments are made, surrounded by
-            nature&apos;ss splendor. It&apos;ss a place to slow down, relax, and
-            feel the joy of being together in a beautiful setting.
-          </p>
+          <p>{WELCOME_PAGE_TEXT.WELCOME_DESC_1}</p>
+          <p>{WELCOME_PAGE_TEXT.WELCOME_DESC_2}</p>
+          <p>{WELCOME_PAGE_TEXT.WELCOME_DESC_3}</p>
         </div>
       </div>
 
@@ -60,32 +47,20 @@ export default async function Page() {
 
       <div className="col-span-3">
         <h1 className="mb-10 text-4xl font-medium text-accent-400">
-          Managed by our family since 1962
+          {WELCOME_PAGE_TEXT.ABOUT_INFO_TITLE}
         </h1>
 
         <div className="space-y-8">
-          <p>
-            Since 1962, The Wild Oasis has been a cherished family-run retreat.
-            Started by our grandparents, this haven has been nurtured with love
-            and care, passing down through our family as a testament to our
-            dedication to creating a warm, welcoming environment.
-          </p>
-          <p>
-            Over the years, we&apos;sve maintained the essence of The Wild
-            Oasis, blending the timeless beauty of the mountains with the
-            personal touch only a family business can offer. Here, you&apos;sre
-            not just a guest; you&apos;sre part of our extended family. So join
-            us at The Wild Oasis soon, where tradition meets tranquility, and
-            every visit is like coming home.
-          </p>
+          <p>{WELCOME_PAGE_TEXT.ABOUT_INFO_1}</p>
+          <p>{WELCOME_PAGE_TEXT.ABOUT_INFO_2}</p>
 
           <div>
-            <a
-              href="/cabins"
+            <Link
+              href={Paths.CABINS}
               className="mt-4 inline-block bg-accent-500 px-8 py-5 text-lg font-semibold text-primary-800 transition-all hover:bg-accent-600"
             >
-              Explore our luxury cabins
-            </a>
+              {WELCOME_PAGE_TEXT.ABOUT_INFO_BUTTON}
+            </Link>
           </div>
         </div>
       </div>

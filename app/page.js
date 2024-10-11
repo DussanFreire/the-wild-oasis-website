@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import bg from "@/public/bg.png";
+import { Paths } from "./_lib/paths";
 
 export default function Home() {
   return (
@@ -18,7 +19,7 @@ export default function Home() {
           Welcome to paradise.
         </h1>
         <Link
-          href="/cabins"
+          href={Paths.CABINS}
           className="bg-accent-500 px-8 py-6 text-lg font-semibold text-primary-800 transition-all hover:bg-accent-600"
         >
           Explore luxury cabins

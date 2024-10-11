@@ -3,13 +3,14 @@ import { Josefin_Sans as josefinSans } from "next/font/google";
 import "@/app/_styles/globals.css";
 import Header from "./_components/Header";
 import { ReservationProvider } from "./_contexts/ReservationContext";
+import { PAGE_NAME } from "./_lib/pageConstants";
 
 const josefin = josefinSans({ subsets: ["latin"], display: "swap" });
 
 export const metadata = {
   title: {
-    template: "%s - The Wild Oasis",
-    default: "Welcome - The Wild Oasis",
+    template: `%s - ${PAGE_NAME}`,
+    default: `Welcome - ${PAGE_NAME}`,
   },
   description:
     "Luxurious cabin hotel, located in the heart of the Italian Dolomites, surrounded by beautiful mountains and dark forest",

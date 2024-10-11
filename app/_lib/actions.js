@@ -29,12 +29,9 @@ export async function updateGuest(formData) {
   const { error } = await supabase
     .from("guests")
     .update(updateData)
-    .eq("id", session.user.guestId)
-    .select()
-    .single();
+    .eq("id", session.user.guestId);
 
   if (error) {
-    console.error(error);
     throw new Error("Guest could not be updated");
   }
 }

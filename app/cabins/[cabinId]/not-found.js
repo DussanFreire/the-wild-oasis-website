@@ -1,3 +1,4 @@
+import { Paths } from "@/app/_lib/paths";
 import Link from "next/link";
 import React from "react";
 
@@ -8,7 +9,7 @@ function NotFound() {
         This cabin could not be found 🏠
       </h1>
       <Link
-        href="/cabins"
+        href={Paths.CABINS}
         className="inline-block bg-accent-500 px-6 py-3 text-lg text-primary-800"
       >
         Back to all cabins

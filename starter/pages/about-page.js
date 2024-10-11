@@ -1,9 +1,12 @@
+import { PAGE_NAME } from "@/app/_lib/pageConstants";
+import { Paths } from "@/app/_lib/paths";
+
 export default function Page() {
   return (
     <div className="grid grid-cols-5 items-center gap-x-24 gap-y-32 text-lg">
       <div className="col-span-3">
         <h1 className="mb-10 text-4xl font-medium text-accent-400">
-          Welcome to The Wild Oasis
+          Welcome to {PAGE_NAME}
         </h1>
 
         <div className="space-y-8">
@@ -36,7 +39,7 @@ export default function Page() {
       </div>
 
       <div className="col-span-2">
-        <img src="/about-2.jpg" alt="Family that manages The Wild Oasis" />
+        <img src="/about-2.jpg" alt={`Family that manages ${PAGE_NAME}`} />
       </div>
 
       <div className="col-span-3">
@@ -62,7 +65,7 @@ export default function Page() {
 
           <div>
             <a
-              href="/cabins"
+              href={Paths.CABINS}
               className="mt-4 inline-block bg-accent-500 px-8 py-5 text-lg font-semibold text-primary-800 transition-all hover:bg-accent-600"
             >
               Explore our luxury cabins

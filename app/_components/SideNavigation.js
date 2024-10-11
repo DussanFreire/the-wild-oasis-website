@@ -8,21 +8,22 @@ import {
 } from "@heroicons/react/24/solid";
 import SignOutButton from "./SignOutButton";
 import { usePathname } from "next/navigation";
+import { Paths } from "../_lib/paths";
 
 const navLinks = [
   {
     name: "Home",
-    href: "/account",
+    href: Paths.ACCOUNT,
     icon: <HomeIcon className="size-5 text-primary-600" />,
   },
   {
     name: "Reservations",
-    href: "/account/reservations",
+    href: Paths.RESERVATIONS,
     icon: <CalendarDaysIcon className="size-5 text-primary-600" />,
   },
   {
     name: "Guest profile",
-    href: "/account/profile",
+    href: Paths.PROFILE,
     icon: <UserIcon className="size-5 text-primary-600" />,
   },
 ];

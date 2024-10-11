@@ -1,4 +1,5 @@
 import ReservationCard from "@/app/_components/ReservationCard";
+import { Paths } from "@/app/_lib/paths";
 import React from "react";
 
 export const metadata = {
@@ -17,7 +18,7 @@ function Page() {
       {bookings.length === 0 ? (
         <p className="text-lg">
           You have no reservations yet. Check out our{" "}
-          <a className="text-accent-500 underline" href="/cabins">
+          <a className="text-accent-500 underline" href={Paths.CABINS}>
             luxury cabins &rarr;
           </a>
         </p>

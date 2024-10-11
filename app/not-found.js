@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { Paths } from "./_lib/paths";
 
 function NotFound() {
   return (
@@ -8,7 +9,7 @@ function NotFound() {
         This page could not be found :(
       </h1>
       <Link
-        href="/"
+        href={Paths.ROOT}
         className="inline-block bg-accent-500 px-6 py-3 text-lg text-primary-800"
       >
         Go back home
