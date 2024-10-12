@@ -1,18 +1,16 @@
-import React from "react";
-
+import SubmitButton from "@/app/_components/SubmitButton";
 import { updateBooking } from "@/app/_lib/actions";
 import { getBooking, getCabin } from "@/app/_lib/data-service";
-import SubmitButton from "@/app/_components/SubmitButton";
 
-async function Page({ params }) {
+export default async function Page({ params }) {
   const { bookingId } = params;
-  const { numGuest, observations, cabinId } = await getBooking(bookingId);
+  const { numGuests, observations, cabinId } = await getBooking(bookingId);
   const { maxCapacity } = await getCabin(cabinId);
 
   return (
     <div>
       <h2 className="mb-7 text-2xl font-semibold text-accent-400">
-        Edit Booking #{bookingId}
+        Update Booking #{bookingId}
       </h2>
 
       <form
@@ -20,12 +18,13 @@ async function Page({ params }) {
         className="flex flex-col gap-6 bg-primary-900 px-12 py-8 text-lg"
       >
         <input type="hidden" value={bookingId} name="bookingId" />
+
         <div className="space-y-2">
           <label htmlFor="numGuests">How many guests?</label>
           <select
             name="numGuests"
             id="numGuests"
-            defaultValue={numGuest}
+            defaultValue={numGuests}
             className="w-full rounded-sm bg-primary-200 px-5 py-3 text-primary-800 shadow-sm"
             required
           >
@@ -52,13 +51,9 @@ async function Page({ params }) {
         </div>
 
         <div className="flex items-center justify-end gap-6">
-          <SubmitButton pendingText={"Updating..."}>
-            Update Booking
-          </SubmitButton>
+          <SubmitButton pendingText="Updating...">Update booking</SubmitButton>
         </div>
       </form>
     </div>
   );
 }
-
-export default Page;

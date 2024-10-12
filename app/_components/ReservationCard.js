@@ -82,7 +82,7 @@ function ReservationCard({ booking, onDelete }) {
             </Link>
           </>
         ) : null}
-        <DeleteReservation onDelete={onDelete} />
+        <DeleteReservation bookingId={id} onDelete={onDelete} />
       </div>
     </div>
   );

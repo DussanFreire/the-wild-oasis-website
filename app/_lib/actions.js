@@ -5,7 +5,7 @@ import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import { Paths } from "./paths";
 import { getBookings } from "./data-service";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 
 export async function signInAction() {
   await signIn("google", { redirectTo: Paths.ACCOUNT });
@@ -16,7 +16,7 @@ export async function signOutAction() {
 }
 
 export async function updateGuest(formData) {
-  const session = GetUserSession();
+  const session = await GetUserSession();
 
   const nationalID = formData.get("nationalID");
   const [nationality, countryFlag] = formData.get("nationality").split("%");
@@ -37,10 +37,11 @@ export async function updateGuest(formData) {
   revalidatePath(Paths.PROFILE);
 }
 
-export async function deleteReservation({ bookingId }) {
-  const session = GetUserSession();
+export async function deleteReservation(bookingId) {
+  console.log(bookingId);
+  const session = await GetUserSession();
 
-  VerifyUserAuthorization(bookingId, session.user.guestId);
+  await VerifyUserAuthorization(bookingId, session.user.guestId);
 
   const { error } = await supabase
     .from("bookings")
@@ -60,8 +61,8 @@ export async function updateBooking(formData) {
     observations: formData.get("observations").slice(0, 1000),
   };
 
-  const session = GetUserSession();
-  VerifyUserAuthorization(bookingId, session.user.guestId);
+  const session = await GetUserSession();
+  await VerifyUserAuthorization(bookingId, session.user.guestId);
 
   const { error } = await supabase
     .from("bookings")
@@ -80,6 +81,7 @@ export async function updateBooking(formData) {
 }
 
 async function VerifyUserAuthorization(bookingId, guestId) {
+  console.log(bookingId, guestId);
   const guestBookings = await getBookings(guestId);
   const guestBookingIds = guestBookings.map((booking) => booking.id);
 
@@ -96,4 +98,29 @@ async function GetUserSession() {
   }
 
   return session;
+}
+
+export async function createBooking(bookingData, formData) {
+  const session = await GetUserSession();
+
+  const newBooking = {
+    ...bookingData,
+    guestId: session.user.guestId,
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations").slice(0, 1000),
+    extrasPrice: 0,
+    totalPrice: bookingData.cabinPrice,
+    isPaid: false,
+    hasBreakfast: false,
+    status: "unconfirmed",
+  };
+  const { error } = await supabase.from("bookings").insert([newBooking]);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be created");
+  }
+  revalidatePath(`${Paths.CABINS}/${bookingData.cabinId}`);
+
+  redirect(Paths.THANK_YOU);
 }
