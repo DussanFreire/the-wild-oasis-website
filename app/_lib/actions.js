@@ -5,21 +5,18 @@ import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import { Paths } from "./paths";
 import { getBookings } from "./data-service";
+import { redirect } from "next/dist/server/api-utils";
 
 export async function signInAction() {
-  await signIn("google", { redirectTo: "/account" });
+  await signIn("google", { redirectTo: Paths.ACCOUNT });
 }
 
 export async function signOutAction() {
-  await signOut({ redirectTo: "/" });
+  await signOut({ redirectTo: Paths.ROOT });
 }
 
 export async function updateGuest(formData) {
-  const session = await auth();
-
-  if (!session) {
-    throw new Error("You must ve logged in");
-  }
+  const session = GetUserSession();
 
   const nationalID = formData.get("nationalID");
   const [nationality, countryFlag] = formData.get("nationality").split("%");
@@ -41,24 +38,62 @@ export async function updateGuest(formData) {
 }
 
 export async function deleteReservation({ bookingId }) {
-  const session = await auth();
+  const session = GetUserSession();
 
-  if (!session) {
-    throw new Error("You must ve logged in");
-  }
+  VerifyUserAuthorization(bookingId, session.user.guestId);
 
-  const guestBookings = await getBookings(session.user.guestId);
-  const guestBookingIds = guestBookings.map((booking) => booking.id);
   const { error } = await supabase
     .from("bookings")
     .delete()
     .eq("id", bookingId);
 
-  if (!guestBookingIds.includes(bookingId)) {
-    throw new Error("You are not allowed to delete this booking");
-  }
   if (error) {
     throw new Error("Booking could not be deleted");
   }
   revalidatePath(Paths.RESERVATIONS);
+}
+
+export async function updateBooking(formData) {
+  const bookingId = Number(formData.get("bookingId"));
+  const updateData = {
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations").slice(0, 1000),
+  };
+
+  const session = GetUserSession();
+  VerifyUserAuthorization(bookingId, session.user.guestId);
+
+  const { error } = await supabase
+    .from("bookings")
+    .update(updateData)
+    .eq("id", bookingId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be updated");
+  }
+
+  revalidatePath(`${Paths.RESERVATIONS}/edit/${bookingId}`);
+  revalidatePath(Paths.RESERVATIONS);
+
+  redirect(Paths.RESERVATIONS);
+}
+
+async function VerifyUserAuthorization(bookingId, guestId) {
+  const guestBookings = await getBookings(guestId);
+  const guestBookingIds = guestBookings.map((booking) => booking.id);
+
+  if (!guestBookingIds.includes(bookingId)) {
+    throw new Error("You are not allowed to delete this booking");
+  }
+}
+
+async function GetUserSession() {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error("You must be logged in");
+  }
+
+  return session;
 }
